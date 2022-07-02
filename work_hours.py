@@ -55,10 +55,10 @@ def start_d_hours(dt_in, dt_out):
 	if out_biz < in_biz:
  		return dt.timedelta(0)
 
-
 def work_hours(start, end):
 	print("todo: implement me")
 
+	
 class TestMedianAlg(unittest.TestCase):
 	
 	def test_in(self): #TODO lookup self 
@@ -79,7 +79,8 @@ class TestMedianAlg(unittest.TestCase):
 
 class TestStartHours(unittest.TestCase):
 	#i, o = in and out
-	#p, m, a = prior, middle, and after with respect to the working hour range
+	#p, m, a = prior, middle, and after, with respect to the working hour range
+	
 	def test_ip_op(self):
 		i = dt.datetime(1, 1, 1, 1)
 		o = dt.datetime(1, 1, 1, 1)
@@ -90,7 +91,7 @@ class TestStartHours(unittest.TestCase):
 		o = dt.datetime(1, 1, 1, 12)
 		self.assertEqual(dt.timedelta(seconds=7200), start_d_hours(i, o), "Should be datetime.timedelta(2)") 
 
-	def test_io_oa(self):
+	def test_ip_oa(self):
 		i = dt.datetime(1, 1, 1, 1)
 		o = dt.datetime(1, 1, 1, 20)
 		self.assertEqual(dt.timedelta(seconds=28800), start_d_hours(i, o), "Should be datetime.timedelta(8)") 

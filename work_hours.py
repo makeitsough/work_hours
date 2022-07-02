@@ -36,7 +36,6 @@ clock_out_time = dt.datetime(1, 1, 1, 18)
 def work_days(start, end):
 	return np.busday_count(start, end)
 
-
 def dt_median(original_dt):
 	dt_mod = dt.datetime(1, 1, 1, original_dt.hour)
 	if dt_mod <= clock_in_time:
@@ -57,6 +56,26 @@ def start_d_hours(dt_in, dt_out):
  		return dt.timedelta(0)
 
 
+def work_hours(start, end):
+	print("todo: implement me")
+
+class TestMedianAlg(unittest.TestCase):
+	
+	def test_in(self): #TODO lookup self 
+		# Event_time is hour 1
+		event = dt.datetime(1, 1, 1, 1)
+		self.assertEqual(dt.datetime(1, 1, 1, 10), dt_median(event), "Should be 01/01/01 10:00")
+
+	def test_event(self): #TODO lookup self 
+		# Event_time is hour 1
+		event = dt.datetime(1, 1, 1, 12)
+		self.assertEqual(dt.datetime(1, 1, 1, 12), dt_median(event), "Should be 01/01/01 12:00")
+
+	def test__end(self): #TODO lookup self 
+		# Event_time is hour 1
+		event = dt.datetime(1, 1, 1, 20)
+		self.assertEqual(dt.datetime(1, 1, 1, 18), dt_median(event), "Should be 01/01/01 20:00")
+		
 
 class TestStartHours(unittest.TestCase):
 	#i, o = in and out
@@ -105,28 +124,6 @@ class TestStartHours(unittest.TestCase):
 		i = dt.datetime(1, 1, 1, 20)
 		o = dt.datetime(1, 1, 1, 20)
 		self.assertEqual(dt.timedelta(0), start_d_hours(i, o), "Should be datetime.timedelta(0)") 
-
-
-def work_hours(start, end):
-	print("todo: implement me")
-
-
-class TestMedianAlg(unittest.TestCase):
-	
-	def test_in(self): #TODO lookup self 
-		# Event_time is hour 1
-		event = dt.datetime(1, 1, 1, 1)
-		self.assertEqual(dt.datetime(1, 1, 1, 10), dt_median(event), "Should be 01/01/01 10:00")
-
-	def test_event(self): #TODO lookup self 
-		# Event_time is hour 1
-		event = dt.datetime(1, 1, 1, 12)
-		self.assertEqual(dt.datetime(1, 1, 1, 12), dt_median(event), "Should be 01/01/01 12:00")
-
-	def test__end(self): #TODO lookup self 
-		# Event_time is hour 1
-		event = dt.datetime(1, 1, 1, 20)
-		self.assertEqual(dt.datetime(1, 1, 1, 18), dt_median(event), "Should be 01/01/01 20:00")
 
 
 class TestWorkDays(unittest.TestCase):

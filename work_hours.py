@@ -36,6 +36,7 @@ clock_out_time = dt.datetime(1, 1, 1, 18)
 def work_days(start, end):
 	return np.busday_count(start, end)
 
+
 def dt_median(original_dt):
 	dt_mod = dt.datetime(1, 1, 1, original_dt.hour)
 	if dt_mod <= clock_in_time:
@@ -51,36 +52,14 @@ def start_d_hours(dt_in, dt_out):
 	out_biz = dt_median(out_time)
 	if out_biz >= in_biz:
 		start_day_hours = out_biz - in_biz
-	return start_day_hours
+		return start_day_hours
 	if out_biz < in_biz:
  		return dt.timedelta(0)
 
-def work_hours(start, end):
-	print("todo: implement me")
-
-	
-class TestMedianAlg(unittest.TestCase):
-	
-	def test_in(self): #TODO lookup self 
-		# Event_time is hour 1
-		event = dt.datetime(1, 1, 1, 1)
-		self.assertEqual(dt.datetime(1, 1, 1, 10), dt_median(event), "Should be 01/01/01 10:00")
-
-	def test_event(self): #TODO lookup self 
-		# Event_time is hour 1
-		event = dt.datetime(1, 1, 1, 12)
-		self.assertEqual(dt.datetime(1, 1, 1, 12), dt_median(event), "Should be 01/01/01 12:00")
-
-	def test__end(self): #TODO lookup self 
-		# Event_time is hour 1
-		event = dt.datetime(1, 1, 1, 20)
-		self.assertEqual(dt.datetime(1, 1, 1, 18), dt_median(event), "Should be 01/01/01 20:00")
-		
 
 class TestStartHours(unittest.TestCase):
 	#i, o = in and out
-	#p, m, a = prior, middle, and after, with respect to the working hour range
-	
+	#p, m, a = prior, middle, and after with respect to the working hour range
 	def test_ip_op(self):
 		i = dt.datetime(1, 1, 1, 1)
 		o = dt.datetime(1, 1, 1, 1)
@@ -89,14 +68,14 @@ class TestStartHours(unittest.TestCase):
 	def test_ip_om(self):
 		i = dt.datetime(1, 1, 1, 1)
 		o = dt.datetime(1, 1, 1, 12)
-		self.assertEqual(dt.timedelta(seconds=7200), start_d_hours(i, o), "Should be datetime.timedelta(2)") 
+		self.assertEqual(dt.timedelta(seconds=7200), start_d_hours(i, o), "Should be datetime.timedelta(seconds=7200)") 
 
-	def test_ip_oa(self):
+	def test_io_oa(self):
 		i = dt.datetime(1, 1, 1, 1)
 		o = dt.datetime(1, 1, 1, 20)
-		self.assertEqual(dt.timedelta(seconds=28800), start_d_hours(i, o), "Should be datetime.timedelta(8)") 
+		self.assertEqual(dt.timedelta(seconds=28800), start_d_hours(i, o), "Should be datetime.timedelta(seconds=28800)") 
 
-	def test_im_op(self):
+	def test_im_op(self): # 
 		i = dt.datetime(1, 1, 1, 12)
 		o = dt.datetime(1, 1, 1, 1)
 		self.assertEqual(dt.timedelta(0), start_d_hours(i, o), "Should be dt.timedelta(0)") 
@@ -106,17 +85,17 @@ class TestStartHours(unittest.TestCase):
 		o = dt.datetime(1, 1, 1, 12)
 		self.assertEqual(dt.timedelta(0), start_d_hours(i, o), "Should be datetime.timedelta(0)") 
 
-	def test_im_oa(self):
+	def test_im_oa(self): 
 		i = dt.datetime(1, 1, 1, 12)
 		o = dt.datetime(1, 1, 1, 20)
-		self.assertEqual(dt.timedelta(seconds=21600), start_d_hours(i, o), "Should be datetime.timedelta(4)") 
+		self.assertEqual(dt.timedelta(seconds=21600), start_d_hours(i, o), "Should be datetime.timedelta(seconds=21600)") 
 
-	def test_ia_op(self):
+	def test_ia_op(self): #
 		i = dt.datetime(1, 1, 1, 20)
 		o = dt.datetime(1, 1, 1, 1)
 		self.assertEqual(dt.timedelta(0), start_d_hours(i, o), "Should be dt.timedelta(0)") 
 
-	def test_ia_om(self):
+	def test_ia_om(self): # 
 		i = dt.datetime(1, 1, 1, 20)
 		o = dt.datetime(1, 1, 1, 12)
 		self.assertEqual(dt.timedelta(0), start_d_hours(i, o), "Should be dt.timedelta(0)") 
@@ -127,28 +106,50 @@ class TestStartHours(unittest.TestCase):
 		self.assertEqual(dt.timedelta(0), start_d_hours(i, o), "Should be datetime.timedelta(0)") 
 
 
-class TestWorkDays(unittest.TestCase):
+def work_hours(start, end):
+	print("todo: implement me")
 
-	# TODO: In one test case, loop over an entire month
-	def test_start_m_end_m(self):
-		s = dt.date(2022, 7, 11)
-		e = dt.date(2022, 7, 11)
-		self.assertEqual(0, work_days(s, e), "Should be 0")
 
-	def test_start_m_end_t(self):
-		s = dt.date(2022, 7, 11)
-		e = dt.date(2022, 7, 12)
-		self.assertEqual(0, work_days(s, e), "Should be 0")
+# class TestMedianAlg(unittest.TestCase):
+	
+# 	def test_in(self): #TODO lookup self 
+# 		# Event_time is hour 1
+# 		event = dt.datetime(1, 1, 1, 1)
+# 		self.assertEqual(dt.datetime(1, 1, 1, 10), dt_median(event), "Should be 01/01/01 10:00")
 
-	def test_start_m_end_w(self):
-		s = dt.date(2022, 7, 11)
-		e = dt.date(2022, 7, 13)
-		self.assertEqual(1, work_days(s, e), "Should be 1")
+# 	def test_event(self): #TODO lookup self 
+# 		# Event_time is hour 1
+# 		event = dt.datetime(1, 1, 1, 12)
+# 		self.assertEqual(dt.datetime(1, 1, 1, 12), dt_median(event), "Should be 01/01/01 12:00")
 
-	def test_start_f_end_m(self):
-		s = dt.date(2022, 7, 15)
-		e = dt.date(2022, 7, 18)
-		self.assertEqual(0, work_days(s, e), "Should be 0")
+# 	def test__end(self): #TODO lookup self 
+# 		# Event_time is hour 1
+# 		event = dt.datetime(1, 1, 1, 20)
+# 		self.assertEqual(dt.datetime(1, 1, 1, 18), dt_median(event), "Should be 01/01/01 20:00")
+
+
+# class TestWorkDays(unittest.TestCase):
+
+# 	# TODO: In one test case, loop over an entire month
+# 	def test_start_m_end_m(self):
+# 		s = dt.date(2022, 7, 11)
+# 		e = dt.date(2022, 7, 11)
+# 		self.assertEqual(0, work_days(s, e), "Should be 0")
+
+# 	def test_start_m_end_t(self):
+# 		s = dt.date(2022, 7, 11)
+# 		e = dt.date(2022, 7, 12)
+# 		self.assertEqual(0, work_days(s, e), "Should be 0")
+
+# 	def test_start_m_end_w(self):
+# 		s = dt.date(2022, 7, 11)
+# 		e = dt.date(2022, 7, 13)
+# 		self.assertEqual(1, work_days(s, e), "Should be 1")
+
+# 	def test_start_f_end_m(self):
+# 		s = dt.date(2022, 7, 15)
+# 		e = dt.date(2022, 7, 18)
+# 		self.assertEqual(0, work_days(s, e), "Should be 0")
 
 
 if __name__ == '__main__':
